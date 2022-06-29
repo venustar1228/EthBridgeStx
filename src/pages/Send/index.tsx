@@ -219,8 +219,8 @@ const Send = (): ReactElement => {
                 </InfoElement>
               </div>
             </div>
-
-            <div
+            <br></br>
+            <div  
               ref={formScrollView}
               style={{ display: 'flex', overflowX: 'hidden' }}
             >

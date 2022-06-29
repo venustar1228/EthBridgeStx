@@ -35,25 +35,25 @@ const StyledFormSection = styled.div`
   margin-bottom: 40px;
 `
 
-const StyledMaxButton = styled.div`
-  position: absolute;
-  top: 50%;
-  margin-top: -13px;
-  right: 0;
-  background-color: ${COLOR.darkGray2};
-  font-size: 12px;
-  border-radius: 5px;
-  padding: 0 10px;
-  line-height: 24px;
-  height: 26px;
-  display: flex;
-  align-items: center;
+// const StyledMaxButton = styled.div`
+//   position: absolute;
+//   top: 50%;
+//   margin-top: -13px;
+//   right: 0;
+//   background-color: ${COLOR.darkGray2};
+//   font-size: 12px;
+//   border-radius: 5px;
+//   padding: 0 10px;
+//   line-height: 24px;
+//   height: 26px;
+//   display: flex;
+//   align-items: center;
 
-  cursor: pointer;
-  :hover {
-    background-color: #323842;
-  }
-`
+//   cursor: pointer;
+//   :hover {
+//     background-color: #323842;
+//   }
+// `
 
 const StyledRefreshButton = styled.div<{ refreshing: boolean }>`
   display: flex;
@@ -137,7 +137,7 @@ const SendForm = ({
 
   const [inputAmount, setInputAmount] = useState('')
 
-  const { formatBalance, getAssetList } = useAsset()
+  // const { formatBalance, getAssetList } = useAsset()
   const { getTerraFeeList } = useSend()
   const { validateSendData } = useSendValidate()
 
@@ -170,10 +170,10 @@ const SendForm = ({
     setMemo(value)
   }
 
-  const onClickMaxButton = async (): Promise<void> => {
-    const assetAmount = new BigNumber(asset?.balance || 0)
-    onChangeAmount({ value: formatBalance(assetAmount) })
-  }
+  // const onClickMaxButton = async (): Promise<void> => {
+  //   const assetAmount = new BigNumber(asset?.balance || 0)
+  //   onChangeAmount({ value: formatBalance(assetAmount) })
+  // }
 
   const setBridgeFee = async (): Promise<void> => {
     if (bridgeUsed === BridgeType.axelar) {
@@ -232,9 +232,9 @@ const SendForm = ({
 
   useEffect(() => {
     onChangeAmount({ value: inputAmount })
-    getAssetList().then((): void => {
-      dbcGetFeeInfoWithValidation.callback()
-    })
+    // getAssetList().then((): void => {
+    //   dbcGetFeeInfoWithValidation.callback()
+    // })
   }, [
     // to check decimal length by network
     loginUser,
@@ -273,7 +273,7 @@ const SendForm = ({
             }}
             labelProps={{ children: 'Amount' }}
           /> */}
-          <StyledMaxButton onClick={onClickMaxButton}>Max</StyledMaxButton>
+          {/* <StyledMaxButton onClick={onClickMaxButton}>Max</StyledMaxButton> */}
         </div>
 
         {isLoggedIn && (
