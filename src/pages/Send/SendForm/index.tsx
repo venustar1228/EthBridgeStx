@@ -263,7 +263,7 @@ const SendForm = ({
 
       <StyledFormSection>
         <div style={{ position: 'relative' }}>
-          <FormLabelInput
+          {/* <FormLabelInput
             inputProps={{
               type: 'number',
               value: inputAmount,
@@ -272,7 +272,7 @@ const SendForm = ({
               },
             }}
             labelProps={{ children: 'Amount' }}
-          />
+          /> */}
           <StyledMaxButton onClick={onClickMaxButton}>Max</StyledMaxButton>
         </div>
 
