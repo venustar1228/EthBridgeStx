@@ -1,7 +1,7 @@
 import { ReactElement, useState } from 'react'
 import styled from 'styled-components'
-import useClipboard from 'react-use-clipboard'
 import { Check } from 'react-bootstrap-icons'
+import useClipboard from 'react-use-clipboard'
 
 import { COLOR, NETWORK } from 'consts'
 import copyClipboardPng from 'images/copy_clipboard.png'
