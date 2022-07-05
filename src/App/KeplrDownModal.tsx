@@ -57,9 +57,9 @@ const BscExtensionDownModal = (): ReactElement => {
         ) : (
           <>
             <div style={{ textAlign: 'center' }}>
-              <ExtLink href={NETWORK.KEPLR_EXTENSION}>
+              <ExtLink href={NETWORK.HIRO_EXTENSION_CHROME}>
                 <Text style={{ color: 'inherit', fontSize: 18 }}>
-                  Download Keplr Extension
+                  Download Hiro Wallet Extension
                 </Text>
               </ExtLink>
               <br />

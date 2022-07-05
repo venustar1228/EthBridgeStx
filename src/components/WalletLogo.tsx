@@ -7,7 +7,7 @@ import BinanceSvg from 'images/bsc.svg'
 import MetamaskSvg from 'images/metamask.svg'
 import WalletConnectSvg from 'images/walletconnect.svg'
 import CoinbaseWalletPng from 'images/CoinbaseWallet.png'
-import KeplrPng from 'images/Keplr.png'
+import HiroPng from 'images/stacks-stx-logo.svg'
 import { WalletEnum } from 'types/wallet'
 import FormImage from './FormImage'
 
@@ -23,7 +23,7 @@ const walletLogo: Record<WalletEnum, string | ComponentType<IconProps>> = {
   [WalletEnum.WalletConnect]: WalletConnectSvg,
   [WalletEnum.TerraWalletConnect]: WalletConnectSvg,
   [WalletEnum.CoinbaseWallet]: CoinbaseWalletPng,
-  [WalletEnum.Keplr]: KeplrPng,
+  [WalletEnum.Hiro]: HiroPng,
 }
 
 const WalletLogo = ({

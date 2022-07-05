@@ -12,7 +12,7 @@ export enum WalletEnum {
   TerraWalletConnect = 'TerraWalletConnect',
   WalletConnect = 'WalletConnect',
   CoinbaseWallet = 'CoinbaseWallet',
-  Keplr = 'Keplr',
+  Hiro = 'Hiro',
 }
 
 export const WalletTitle: Record<WalletEnum, string> = {
@@ -22,7 +22,7 @@ export const WalletTitle: Record<WalletEnum, string> = {
   MetaMask: 'MetaMask',
   WalletConnect: 'WalletConnect',
   CoinbaseWallet: 'Coinbase Wallet',
-  Keplr: 'Keplr (Extension)',
+  Hiro: 'Hiro (Extension)',
 }
 
 export const WalletSupportBrowser: Record<
@@ -52,8 +52,8 @@ export const WalletSupportBrowser: Record<
     isSupport: isBrowser,
     errorMessage: 'Available for desktop browsers.',
   },
-  Keplr: {
-    isSupport: isBrowser && (isChrome || isEdgeChromium),
-    errorMessage: 'Available for desktop Chrome.',
+  Hiro: {
+    isSupport: isBrowser,
+    errorMessage: 'Available for desktop browsers.',
   },
 }

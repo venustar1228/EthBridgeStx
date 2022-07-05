@@ -55,9 +55,7 @@ const blockChainName: Record<BlockChainType, string> = {
 
 const metamaskRpc: Record<BlockChainType, string[]> = {
   // used only for EVM on suugest chain
-  [BlockChainType.stx]: [
-
-  ],
+  [BlockChainType.stx]: [],
   [BlockChainType.bsc]: [
     'https://bsc-dataseed.binance.org/',
     'https://bsc-dataseed1.defibit.io/',
@@ -114,7 +112,8 @@ const TERRA_EXTENSION =
   'https://chrome.google.com/webstore/detail/terra-station-wallet/aiifbnbfobpmeekipheeijimdpnlpgpp'
 const TERRA_EXTENSION_FIREFOX =
   'https://addons.mozilla.org/en-US/firefox/addon/terra-station-wallet/'
-
+const HIRO_EXTENSION_CHROME =
+  'https://chrome.google.com/webstore/detail/hiro-wallet/ldinpeekobnhjjdofggfgjlcehhmanlj'
 const BSC_EXTENSION =
   'https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp'
 const KEPLR_EXTENSION =
@@ -172,6 +171,7 @@ export default {
   INFURAID,
   TERRA_ASSETS_URL,
   TERRA_EXTENSION,
+  HIRO_EXTENSION_CHROME,
   TERRA_EXTENSION_FIREFOX,
   BSC_EXTENSION,
   KEPLR_EXTENSION,

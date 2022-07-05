@@ -113,7 +113,7 @@ const SelectEtherBaseWalletModal = (): ReactElement => {
         user: {
           address,
           signer: signingCosmosClient,
-          walletType: WalletEnum.Keplr,
+          walletType: WalletEnum.Hiro,
         },
       })
     } else {
@@ -192,7 +192,7 @@ const SelectEtherBaseWalletModal = (): ReactElement => {
       case WalletEnum.TerraWalletConnect:
         onClickTerraWalletConnect()
         break
-      case WalletEnum.Keplr:
+      case WalletEnum.Hiro:
         onClickKeplr()
         break
     }
@@ -210,7 +210,7 @@ const SelectEtherBaseWalletModal = (): ReactElement => {
   } else if (NETWORK.isEtherBaseBlockChain(fromBlockChain)) {
     buttons = [WalletEnum.MetaMask]
   } else if (isIbcNetwork(fromBlockChain)) {
-    buttons = [WalletEnum.Keplr]
+    buttons = [WalletEnum.Hiro]
   }
 
   useEffect(() => {
