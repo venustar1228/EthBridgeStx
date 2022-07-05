@@ -44,10 +44,11 @@ const BlockChainNetwork = (): ReactElement => {
   const [fromBlockChain, setFromBlockChain] = useRecoilState(
     SendStore.fromBlockChain
   )
+  console.log('SendStore.fromBlockChain: ', SendStore.fromBlockChain)
   const [bridgeUsed, setBridgeUsed] = useRecoilState(SendStore.bridgeUsed)
   useUpdateBridgeType()
   const { setBlockchainStorage } = useAuth()
-
+  console.log('toBlockChain', fromBlockChain, toBlockChain)
   return (
     <StyledNetworkBox>
       <BackgroundImg
@@ -70,13 +71,17 @@ const BlockChainNetwork = (): ReactElement => {
             blockChain: fromBlockChain,
             setBlockChain: (value): void => {
               logout()
-              setFromBlockChain(value)
+              let to: any = BlockChainType.ethereum
               if (value !== BlockChainType.stx) {
-                alert("not stx");
-                setToBlockChain(BlockChainType.stx)
+                to = BlockChainType.stx
               }
-              else setToBlockChain(BlockChainType.ethereum)
-              setBridgeUsed(getDefaultBridge(BlockChainType.ethereum, BlockChainType.stx))
+
+              setFromBlockChain(value)
+              setToBlockChain(to)
+
+              setBridgeUsed(
+                getDefaultBridge(BlockChainType.stx, BlockChainType.ethereum)
+              )
               setBlockchainStorage({
                 fromBlockChain: value,
                 toBlockChain: BlockChainType.stx,
@@ -87,12 +92,12 @@ const BlockChainNetwork = (): ReactElement => {
               {
                 label: NETWORK.blockChainName[BlockChainType.stx],
                 value: BlockChainType.stx,
-                isDisabled: fromBlockChain === BlockChainType.stx,
+                isDisabled: false,
               },
               {
                 label: NETWORK.blockChainName[BlockChainType.ethereum],
                 value: BlockChainType.ethereum,
-                isDisabled: fromBlockChain === BlockChainType.ethereum,
+                isDisabled: false,
               },
               // {
               //   label: NETWORK.blockChainName[BlockChainType.osmo],
@@ -126,33 +131,35 @@ const BlockChainNetwork = (): ReactElement => {
         <div style={{ height: '100%', display: 'flex', alignItems: 'start' }}>
           <SelectBridge />
         </div>
+
         <SelectBlockChain
           {...{
             blockChain: toBlockChain,
+
             setBlockChain: (b): void => {
-              setToBlockChain(b)
-              if (b !== BlockChainType.stx) {
-                setFromBlockChain(BlockChainType.stx)
-                logout()
-              }
-              else setFromBlockChain(BlockChainType.ethereum)
-              setBridgeUsed(getDefaultBridge(BlockChainType.stx, b))
-              setBlockchainStorage({
-                fromBlockChain: BlockChainType.ethereum,
-                toBlockChain: BlockChainType.stx,
-                bridgeUsed: getDefaultBridge(BlockChainType.stx, b),
-              })
+              // setToBlockChain(b)
+              // if (b !== BlockChainType.stx) {
+              //   setFromBlockChain(BlockChainType.stx)
+              //   logout()
+              // }
+              // else setFromBlockChain(BlockChainType.ethereum)
+              // setBridgeUsed(getDefaultBridge(BlockChainType.stx, b))
+              // setBlockchainStorage({
+              //   fromBlockChain: BlockChainType.ethereum,
+              //   toBlockChain: BlockChainType.stx,
+              //   bridgeUsed: getDefaultBridge(BlockChainType.stx, b),
+              // })
             },
             optionList: [
               {
                 label: NETWORK.blockChainName[BlockChainType.stx],
                 value: BlockChainType.stx,
-                isDisabled: toBlockChain === BlockChainType.stx,
+                isDisabled: false,
               },
               {
                 label: NETWORK.blockChainName[BlockChainType.ethereum],
                 value: BlockChainType.ethereum,
-                isDisabled: toBlockChain === BlockChainType.ethereum,
+                isDisabled: false,
               },
               // {
               //   label: NETWORK.blockChainName[BlockChainType.osmo],

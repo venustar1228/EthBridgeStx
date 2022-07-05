@@ -169,7 +169,7 @@ const Finish = (): ReactElement => {
             {formatBalance(displayAmount, asset?.terraToken)} {asset?.symbol}
           </Text>
         </div>
-        {fromBlockChain === BlockChainType.terra &&
+        {fromBlockChain === BlockChainType.stx &&
           (bridgeUsed === BridgeType.axelar ||
             bridgeUsed === BridgeType.wormhole) && (
             <div

@@ -111,7 +111,7 @@ const FormFeeInfo = ({
   return (
     <>
       {isLoggedIn &&
-        fromBlockChain === BlockChainType.terra &&
+        fromBlockChain === BlockChainType.stx &&
         validationResult.isValid && (
           <StyledFormSection>
             <FormLabel title={'TxFee'} />

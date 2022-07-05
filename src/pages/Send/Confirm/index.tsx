@@ -113,8 +113,8 @@ const Confirm = (): ReactElement => {
         </StyledSecD>
       </StyledSection>
 
-      {fromBlockChain === BlockChainType.terra &&
-        toBlockChain === BlockChainType.terra && (
+      {fromBlockChain === BlockChainType.stx &&
+        toBlockChain === BlockChainType.stx && (
           <StyledSection>
             <StyledSecH>Memo</StyledSecH>
             <StyledSecD>
@@ -129,7 +129,7 @@ const Confirm = (): ReactElement => {
         </StyledSecD>
       </StyledSection>
 
-      {fromBlockChain === BlockChainType.terra && (
+      {fromBlockChain === BlockChainType.stx && (
         <StyledSection style={{ flexDirection: 'column', paddingBottom: 0 }}>
           <StyledSpaceBetween style={{ marginBottom: 16 }}>
             <StyledSecH>GAS Fee</StyledSecH>

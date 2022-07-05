@@ -22,7 +22,7 @@ const SelectBridge = (): ReactElement => {
 
   const bridges =
     availableBridges[
-      toBlockChain === BlockChainType.terra ? fromBlockChain : toBlockChain
+      toBlockChain === BlockChainType.stx ? fromBlockChain : toBlockChain
     ]
 
   const bridgesList = bridges.map((b) => {

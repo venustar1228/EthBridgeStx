@@ -148,12 +148,12 @@ const Send = (): ReactElement => {
       fromBlockChain !== BlockChainType.ethereum
     ) {
       logout()
-      setToBlockChain(BlockChainType.terra)
+      setToBlockChain(BlockChainType.stx)
       setBridgeUsed(BridgeType.axelar)
       setFromBlockChain(BlockChainType.ethereum)
     } else if (false === isLoggedIn && lastFromBlockChain) {
       // default network is terra
-      if (lastFromBlockChain === BlockChainType.terra) {
+      if (lastFromBlockChain === BlockChainType.stx) {
         selectWallet.open()
       } else {
         setFromBlockChain(lastFromBlockChain)
@@ -172,10 +172,10 @@ const Send = (): ReactElement => {
       }
 
       if (
-        fromBlockChain !== BlockChainType.terra &&
+        fromBlockChain !== BlockChainType.stx &&
         fromBlockChain !== toBlockChain
       ) {
-        setToBlockChain(BlockChainType.terra)
+        setToBlockChain(BlockChainType.stx)
       }
     }
   }, [fromBlockChain])
@@ -215,12 +215,13 @@ const Send = (): ReactElement => {
             <div style={{ marginTop: -40 }}>
               <div style={{ marginTop: -40 }}>
                 <InfoElement>
-                  This is a Cross Chain Bridge to exchange NFTs between Ethereum and STX.
+                  This is a Cross Chain Bridge to exchange NFTs between Ethereum
+                  and STX.
                 </InfoElement>
               </div>
             </div>
             <br></br>
-            <div  
+            <div
               ref={formScrollView}
               style={{ display: 'flex', overflowX: 'hidden' }}
             >
@@ -234,7 +235,7 @@ const Send = (): ReactElement => {
                     <div style={{ marginTop: 60 }}>
                       <WarningElement>
                         The{' '}
-                        {fromBlockChain === BlockChainType.terra
+                        {fromBlockChain === BlockChainType.stx
                           ? 'Station'
                           : 'MetaMask'}{' '}
                         popup may take a few seconds to open. Please don't

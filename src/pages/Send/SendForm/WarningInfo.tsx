@@ -6,10 +6,7 @@ import warningSvg from 'images/warning.svg'
 import dangerSvg from 'images/danger.svg'
 import infoSvg from 'images/info.svg'
 
-import { BlockChainType, availableBridges, BridgeType } from 'types/network'
 import SendProcessStore, { ProcessStatus } from 'store/SendProcessStore'
-
-import SendStore from 'store/SendStore'
 
 import { Text } from 'components'
 
@@ -153,20 +150,20 @@ export const InfoElement = ({
 }
 
 export const WarningInfo = (): ReactElement => {
-  const toBlockChain = useRecoilValue(SendStore.toBlockChain)
-  const fromBlockChain = useRecoilValue(SendStore.fromBlockChain)
-  const bridgeUsed = useRecoilValue(SendStore.bridgeUsed)
+  //  const toBlockChain = useRecoilValue(SendStore.toBlockChain)
+  //  const fromBlockChain = useRecoilValue(SendStore.fromBlockChain)
+  //const bridgeUsed = useRecoilValue(SendStore.bridgeUsed)
   const status = useRecoilValue(SendProcessStore.sendProcessStatus)
 
-  const chain =
-    toBlockChain === BlockChainType.terra ? fromBlockChain : toBlockChain
-  const bridgesList = availableBridges[chain]
+  //  const chain =
+  //   toBlockChain === BlockChainType.ethereum ? fromBlockChain : toBlockChain
+  //  const bridgesList = availableBridges[chain]
 
   function infoText(): string | undefined {
     // if (chain === BlockChainType.inj) {
     //   return 'Injective is not yet relayed.'
     // } else if (
-    //   BlockChainType.terra === fromBlockChain &&
+    //   BlockChainType.stx === fromBlockChain &&
     //   fromBlockChain === toBlockChain
     // ) {
     //   return 'For Terra to Terra transfers, if the Terra address at the receiving end is an exchange address, the transaction will require a “memo”'
@@ -183,32 +180,7 @@ export const WarningInfo = (): ReactElement => {
   return (
     <div style={{ marginBottom: '40px' }}>
       {status === ProcessStatus.Input && (
-        <>
-          {bridgesList[0] && bridgesList[0] !== bridgeUsed && (
-            <InfoElement>
-              The default bridge for this route is{' '}
-              {bridgesList[0].toUpperCase()}
-            </InfoElement>
-          )}
-
-          {infoText() && <WarningElement>{infoText()}</WarningElement>}
-        </>
-      )}
-      {(status === ProcessStatus.Submit ||
-        status === ProcessStatus.Confirm ||
-        status === ProcessStatus.Done) && (
-        <>
-          {bridgeUsed === BridgeType.wormhole && (
-            <WarningElement>
-              Funds are deposited into the destination wallet few minutes after
-              transfer. If funds are not received, go{' '}
-              <a href="https://portalbridge.com/#/redeem" target="blank">
-                to Portal bridge
-              </a>{' '}
-              to redeem the funds by entering the transaction hash
-            </WarningElement>
-          )}
-        </>
+        <>{<WarningElement>{infoText()}</WarningElement>}</>
       )}
     </div>
   )

@@ -37,7 +37,7 @@ const SubmitButton = (): ReactElement => {
   }): Promise<void> => {
     if (submitResult.success) {
       setStatus(ProcessStatus.Pending)
-      if (fromBlockChain === BlockChainType.terra) {
+      if (fromBlockChain === BlockChainType.stx) {
         const waitReceipt = setInterval(async () => {
           try {
             const txInfos = await getTxInfos({

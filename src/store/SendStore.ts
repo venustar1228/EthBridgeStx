@@ -25,7 +25,7 @@ const memo = atom<string>({
 })
 const fromBlockChain = atom<BlockChainType>({
   key: 'sendFromBlockChain',
-  default: BlockChainType.terra,
+  default: BlockChainType.stx,
 })
 const toBlockChain = atom<BlockChainType>({
   key: 'sendToBlockChain',

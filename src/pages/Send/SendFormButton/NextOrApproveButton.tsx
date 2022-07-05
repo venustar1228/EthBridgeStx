@@ -31,7 +31,7 @@ const NextOrApproveButton = ({
   const { allowanceOfSelectedAsset, approveTxFromEtherBase } = useSend()
 
   const ableButton =
-    fromBlockChain === BlockChainType.terra
+    fromBlockChain === BlockChainType.stx
       ? validationResult.isValid && feeValidationResult.isValid
       : validationResult.isValid
 

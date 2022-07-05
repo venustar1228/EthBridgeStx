@@ -155,7 +155,7 @@ const SendForm = ({
     if (false === _.isNaN(_.toNumber(value))) {
       setInputAmount(value)
       const decimalSize = new BigNumber(
-        fromBlockChain === BlockChainType.terra ||
+        fromBlockChain === BlockChainType.stx ||
         bridgeUsed === BridgeType.ibc ||
         bridgeUsed === BridgeType.axelar ||
         bridgeUsed === BridgeType.wormhole
@@ -298,8 +298,8 @@ const SendForm = ({
         />
       </StyledFormSection>
 
-      {fromBlockChain === BlockChainType.terra &&
-        toBlockChain === BlockChainType.terra && (
+      {fromBlockChain === BlockChainType.stx &&
+        toBlockChain === BlockChainType.stx && (
           <StyledFormSection>
             <FormLabelInput
               inputProps={{
