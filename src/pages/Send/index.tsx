@@ -15,6 +15,7 @@ import useSendValidate from 'hooks/useSendValidate'
 
 import { Container } from 'components'
 import FormTitle from './FormTitle'
+import { Button } from 'components'
 import SendForm from './SendForm'
 import Confirm from './Confirm'
 import Finish from './Finish'
@@ -34,6 +35,18 @@ import {
   WarningElement,
   WarningInfo,
 } from './SendForm/WarningInfo'
+
+import {
+  makeContractCall,
+  broadcastTransaction,
+  AnchorMode,
+  bufferCVFromString,
+  NonFungibleConditionCode,
+  createAssetInfo,
+  makeContractNonFungiblePostCondition,
+  uintCV,
+} from '@stacks/transactions'
+import { StacksTestnet } from '@stacks/network'
 
 const StyledProcessCircle = styled.div`
   height: 128px;
@@ -190,6 +203,53 @@ const Send = (): ReactElement => {
       }
     }
   }, [status])
+  const network = new StacksTestnet()
+  const contractAddress = 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'
+  const contractName = 'stx-nft-minting'
+  const postConditionCode = NonFungibleConditionCode.Owns
+  const assetAddress = 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'
+  const assetContractname = 'stx-nft-minting'
+  const assetName = 'arties'
+  const tokenAssetName = uintCV(1)
+  const nonFungibleAssetInfo = createAssetInfo(
+    assetAddress,
+    assetContractname,
+    assetName
+  )
+
+  const contractNonFungiblePostCondition = makeContractNonFungiblePostCondition(
+    contractAddress,
+    contractName,
+    postConditionCode,
+    nonFungibleAssetInfo,
+    tokenAssetName
+  )
+
+  const transferNFT = async (): Promise<void> => {
+    console.log(contractNonFungiblePostCondition)
+    const txOptions = {
+      contractAddress: 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5',
+      contractName: 'stx-nft-minting',
+      functionName: 'transfer',
+      functionArgs: [
+        uintCV(1),
+        bufferCVFromString('ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'),
+        bufferCVFromString('ST2DWVJSBJ1KF9VJN9GB6WQBC45PVNPGF66MBWZW3'),
+      ],
+      senderKey:
+        'sustain special current state salt dash muscle harsh sadness proud bright trash jazz strategy normal genre frequent typical good vote nephew cycle chaos more',
+      validateWithAbi: true,
+      network,
+      contractNonFungiblePostCondition,
+      anchorMode: AnchorMode.Any,
+    }
+
+    const transaction = await makeContractCall(txOptions)
+
+    const broadcastResponse = await broadcastTransaction(transaction, network)
+    const txId = broadcastResponse.txid
+    console.log('txId: ', txId)
+  }
 
   return (
     <StyledContainer>
@@ -255,6 +315,8 @@ const Send = (): ReactElement => {
             ].includes(status) && (
               <SendFormButton feeValidationResult={feeValidationResult} />
             )}
+            <br />
+            <Button onClick={transferNFT}>Transfer</Button>
           </>
         )}
       </StyledForm>
