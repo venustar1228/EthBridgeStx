@@ -40,13 +40,26 @@ import {
   makeContractCall,
   broadcastTransaction,
   AnchorMode,
-  bufferCVFromString,
+  //  bufferCVFromString,
   NonFungibleConditionCode,
   createAssetInfo,
   makeContractNonFungiblePostCondition,
   uintCV,
+  //  contractPrincipalCVFromAddress,
+  //intCV,
+  // FungibleConditionCode,
+  // makeStandardNonFungiblePostCondition,
+  // makeStandardSTXPostCondition,
+  // standardPrincipalCV,
 } from '@stacks/transactions'
-import { StacksTestnet } from '@stacks/network'
+
+import {
+  StacksTestnet,
+  // StacksMocknet
+} from '@stacks/network'
+
+import { AppConfig, UserSession, showConnect } from '@stacks/connect'
+import { principalCV } from '@stacks/transactions/dist/clarity/types/principalCV'
 
 const StyledProcessCircle = styled.div`
   height: 128px;
@@ -103,6 +116,8 @@ const Send = (): ReactElement => {
 
   const { validateFee } = useSendValidate()
   const feeValidationResult = validateFee()
+
+  const network = new StacksTestnet()
 
   const renderProcessStatus = useCallback((): ReactElement => {
     switch (status) {
@@ -203,10 +218,10 @@ const Send = (): ReactElement => {
       }
     }
   }, [status])
-  const network = new StacksTestnet()
+
   const contractAddress = 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'
   const contractName = 'stx-nft-minting'
-  const postConditionCode = NonFungibleConditionCode.Owns
+  const postConditionCode = NonFungibleConditionCode.DoesNotOwn
   const assetAddress = 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'
   const assetContractname = 'stx-nft-minting'
   const assetName = 'arties'
@@ -224,27 +239,49 @@ const Send = (): ReactElement => {
     nonFungibleAssetInfo,
     tokenAssetName
   )
+  const appConfig = new AppConfig(['store_write', 'publish_data'])
+  const userSession = new UserSession({ appConfig })
+
+  const authenticate = (): void => {
+    console.log('Connect Wallet Test')
+    showConnect({
+      appDetails: {
+        name: 'Stacks React Starter',
+        icon: window.location.origin + '/logo512.png',
+      },
+      redirectTo: '/',
+      onFinish: () => {
+        window.location.reload()
+      },
+      userSession,
+    })
+    console.log('showConnect', showConnect)
+  }
 
   const transferNFT = async (): Promise<void> => {
-    console.log(contractNonFungiblePostCondition)
     const txOptions = {
       contractAddress: 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5',
       contractName: 'stx-nft-minting',
       functionName: 'transfer',
       functionArgs: [
         uintCV(1),
-        bufferCVFromString('ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'),
-        bufferCVFromString('ST2DWVJSBJ1KF9VJN9GB6WQBC45PVNPGF66MBWZW3'),
+        principalCV('ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'),
+        principalCV('ST2DWVJSBJ1KF9VJN9GB6WQBC45PVNPGF66MBWZW3'),
       ],
       senderKey:
-        'sustain special current state salt dash muscle harsh sadness proud bright trash jazz strategy normal genre frequent typical good vote nephew cycle chaos more',
+        'df6a1fe51a9a5202f056515ab27d721d5f13f44c96ed1da7fcbaff046af11c7901',
       validateWithAbi: true,
       network,
       contractNonFungiblePostCondition,
       anchorMode: AnchorMode.Any,
     }
 
+    console.log('*********************************')
+    console.log(txOptions)
+    console.log('*********************************')
+
     const transaction = await makeContractCall(txOptions)
+    console.log('/////////////////////////////////////////////////')
 
     const broadcastResponse = await broadcastTransaction(transaction, network)
     const txId = broadcastResponse.txid
@@ -315,6 +352,9 @@ const Send = (): ReactElement => {
             ].includes(status) && (
               <SendFormButton feeValidationResult={feeValidationResult} />
             )}
+            <br />
+            <Button onClick={authenticate}>Connect Wallet Test</Button>
+
             <br />
             <Button onClick={transferNFT}>Transfer</Button>
           </>
