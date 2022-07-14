@@ -102,7 +102,7 @@ const Confirm = (): ReactElement => {
   return (
     <StyledContainer>
       <StyledSection>
-        <StyledSecH>Asset</StyledSecH>
+        {/* <StyledSecH>Asset</StyledSecH> */}
         <StyledSecD>
           <FormImage
             src={asset?.logoURI || ''}

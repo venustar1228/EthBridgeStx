@@ -14,7 +14,6 @@ import useAuth from 'hooks/useAuth'
 
 const SelectBridge = (): ReactElement => {
   const status = useRecoilValue(SendProcessStore.sendProcessStatus)
-  console.log('SendStore.toBlockChain', SendStore.toBlockChain)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
   const fromBlockChain = useRecoilValue(SendStore.fromBlockChain)
   const [bridgeUsed, setBridgeUsed] = useRecoilState(SendStore.bridgeUsed)

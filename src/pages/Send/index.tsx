@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useRecoilState, useRecoilValue } from 'recoil'
@@ -40,11 +41,12 @@ import {
   makeContractCall,
   broadcastTransaction,
   AnchorMode,
-  //  bufferCVFromString,
+  //bufferCVFromString,
   NonFungibleConditionCode,
   createAssetInfo,
   makeContractNonFungiblePostCondition,
   uintCV,
+  PostConditionMode,
   //  contractPrincipalCVFromAddress,
   //intCV,
   // FungibleConditionCode,
@@ -60,6 +62,10 @@ import {
 
 import { AppConfig, UserSession, showConnect } from '@stacks/connect'
 import { principalCV } from '@stacks/transactions/dist/clarity/types/principalCV'
+import Web3 from 'web3'
+import { AbiItem } from 'web3-utils'
+
+import mintContractABI from './mintContractABI'
 
 const StyledProcessCircle = styled.div`
   height: 128px;
@@ -99,6 +105,35 @@ const TestnetImg = styled.img`
   top: 0;
   right: 0;
 `
+
+let web3: Web3
+if (Web3.givenProvider) {
+  web3 = new Web3(Web3.givenProvider)
+}
+
+const mintContractAddress = '0xeF318ce0C5FB611ceDb6F6184A0a37d2F44c38D5'
+let mintContract = new web3.eth.Contract(
+  mintContractABI as AbiItem,
+  mintContractAddress
+)
+
+const appConfig = new AppConfig(['store_write', 'publish_data'])
+export const userSession = new UserSession({ appConfig })
+
+const authenticate = (): void => {
+  console.log('Connect Wallet Test')
+  showConnect({
+    appDetails: {
+      name: 'Stacks React Starter',
+      icon: window.location.origin + '/logo512.png',
+    },
+    redirectTo: '/',
+    onFinish: () => {
+      window.location.reload()
+    },
+    userSession,
+  })
+}
 
 const Send = (): ReactElement => {
   const formScrollView = useRef<HTMLDivElement>(null)
@@ -222,47 +257,60 @@ const Send = (): ReactElement => {
   const contractAddress = 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'
   const contractName = 'stx-nft-minting'
   const postConditionCode = NonFungibleConditionCode.DoesNotOwn
-  const assetAddress = 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'
-  const assetContractname = 'stx-nft-minting'
-  const assetName = 'arties'
+  const derivationPath = "m/44'/5757'/0'/0/1"
+  console.console.log('derivationPath', derivationPath)
+
+  //const postConditionMode = PostConditionMode.Allow;
+  // const assetAddress = 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'
+  // const assetContractname = 'stx-nft-minting'
+  // const assetName = 'arties'
   const tokenAssetName = uintCV(1)
   const nonFungibleAssetInfo = createAssetInfo(
-    assetAddress,
-    assetContractname,
-    assetName
+    'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5',
+    'stx-nft-minting',
+    'arties'
   )
 
-  const contractNonFungiblePostCondition = makeContractNonFungiblePostCondition(
-    contractAddress,
-    contractName,
-    postConditionCode,
-    nonFungibleAssetInfo,
-    tokenAssetName
-  )
-  const appConfig = new AppConfig(['store_write', 'publish_data'])
-  const userSession = new UserSession({ appConfig })
+  const contractNonFungiblePostCondition = [
+    makeContractNonFungiblePostCondition(
+      contractAddress,
+      contractName,
+      postConditionCode,
+      nonFungibleAssetInfo,
+      tokenAssetName
+    ),
+  ]
 
-  const authenticate = (): void => {
-    console.log('Connect Wallet Test')
-    showConnect({
-      appDetails: {
-        name: 'Stacks React Starter',
-        icon: window.location.origin + '/logo512.png',
-      },
-      redirectTo: '/',
-      onFinish: () => {
-        window.location.reload()
-      },
-      userSession,
-    })
-    console.log('showConnect', showConnect)
+  console.log('IMPORTANT!!!', contractNonFungiblePostCondition)
+
+  const runSmartContract = async (
+    contract: any,
+    func: any,
+    args = [],
+    options: any
+  ): void => {
+    let accounts = await web3.eth.requestAccounts()
+    if (accounts.length === 0) {
+      alert('accounts.length = 0')
+      return false
+    }
+
+    if (!contract) return false
+    if (!contract.methods[func]) return false
+    const promiEvent = await contract.methods[func](...args).send(
+      Object.assign({ from: accounts[0] }, options)
+    ) //this doesn't work now.
+    console.log('result', promiEvent)
+    return promiEvent
   }
 
   const transferNFT = async (): Promise<void> => {
     const txOptions = {
       contractAddress: 'ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5',
       contractName: 'stx-nft-minting',
+      network,
       functionName: 'transfer',
+      postConditionMode: PostConditionMode.Allow,
       functionArgs: [
         uintCV(1),
         principalCV('ST10M9SK9RE5Z919TYVVMTZF9D8E0D6V8GR11BPA5'),
@@ -271,7 +319,6 @@ const Send = (): ReactElement => {
       senderKey:
         'df6a1fe51a9a5202f056515ab27d721d5f13f44c96ed1da7fcbaff046af11c7901',
       validateWithAbi: true,
-      network,
       contractNonFungiblePostCondition,
       anchorMode: AnchorMode.Any,
     }
@@ -286,6 +333,8 @@ const Send = (): ReactElement => {
     const broadcastResponse = await broadcastTransaction(transaction, network)
     const txId = broadcastResponse.txid
     console.log('txId: ', txId)
+
+    await runSmartContract(mintContract, 'mint')
   }
 
   return (

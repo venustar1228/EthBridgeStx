@@ -15,6 +15,10 @@ const toAddress = atom<string>({
   key: 'sendToAddress',
   default: '',
 })
+const NFTID = atom<string>({
+  key: 'sendNFTID',
+  default: '',
+})
 const amount = atom<string>({
   key: 'sendAmount',
   default: '',
@@ -104,4 +108,5 @@ export default {
   amountAfterBridgeFee,
 
   validationResult,
+  NFTID,
 }

@@ -11,7 +11,6 @@ import { ASSET, COLOR } from 'consts'
 import { BlockChainType, BridgeType } from 'types/network'
 import { ValidateItemResultType } from 'types/send'
 import { Text, Row } from 'components'
-import FormLabel from 'components/FormLabel'
 import FormErrorMessage from 'components/FormErrorMessage'
 import FormLabelInput from 'components/FormLabelInput'
 
@@ -22,7 +21,6 @@ import useAsset from 'hooks/useAsset'
 import AuthStore from 'store/AuthStore'
 import SendStore from 'store/SendStore'
 
-import AssetList from './AssetList'
 import CopyTokenAddress from './CopyTokenAddress'
 import FormFeeInfo from './FormFeeInfo'
 import NetworkStore from 'store/NetworkStore'
@@ -115,6 +113,7 @@ const SendForm = ({
   // Send Data
   const asset = useRecoilValue(SendStore.asset)
   const [toAddress, setToAddress] = useRecoilState(SendStore.toAddress)
+  const [NFTID, setNFTID] = useRecoilState(SendStore.NFTID)
   const [amount, setAmount] = useRecoilState(SendStore.amount)
   const [memo, setMemo] = useRecoilState(SendStore.memo)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
@@ -143,6 +142,10 @@ const SendForm = ({
 
   const onChangeToAddress = ({ value }: { value: string }): void => {
     setToAddress(value)
+  }
+
+  const onChangeNFTID = ({ value }: { value: string }): void => {
+    setNFTID(value)
   }
 
   const onChangeAmount = ({ value }: { value: string }): void => {
@@ -249,11 +252,9 @@ const SendForm = ({
     <StyledContainer>
       <StyledFormSection>
         <Row style={{ justifyContent: 'space-between' }}>
-          <FormLabel title={'Asset'} />
           <RefreshButton />
         </Row>
 
-        <AssetList {...{ selectedAsset: asset, onChangeAmount }} />
         <FormErrorMessage
           errorMessage={validationResult.errorMessage?.asset}
           style={{ marginBottom: 0 }}
@@ -281,6 +282,18 @@ const SendForm = ({
             errorMessage={validationResult.errorMessage?.amount}
           />
         )}
+      </StyledFormSection>
+
+      <StyledFormSection>
+        <FormLabelInput
+          inputProps={{
+            value: NFTID,
+            onChange: ({ target: { value } }): void => {
+              onChangeNFTID({ value })
+            },
+          }}
+          labelProps={{ children: 'Select NFT ID' }}
+        />
       </StyledFormSection>
 
       <StyledFormSection>

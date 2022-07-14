@@ -107,7 +107,7 @@ const useSendValidate = (): {
       }
     }
 
-    let validAddress = false
+    let validAddress = true
 
     if (toBlockChain === BlockChainType.terra) {
       if (toAddress.endsWith('.ust')) {

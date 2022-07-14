@@ -44,11 +44,9 @@ const BlockChainNetwork = (): ReactElement => {
   const [fromBlockChain, setFromBlockChain] = useRecoilState(
     SendStore.fromBlockChain
   )
-  console.log('SendStore.fromBlockChain: ', SendStore.fromBlockChain)
   const [bridgeUsed, setBridgeUsed] = useRecoilState(SendStore.bridgeUsed)
   useUpdateBridgeType()
   const { setBlockchainStorage } = useAuth()
-  console.log('toBlockChain', fromBlockChain, toBlockChain)
   return (
     <StyledNetworkBox>
       <BackgroundImg

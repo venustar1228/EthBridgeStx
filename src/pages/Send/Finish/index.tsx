@@ -201,6 +201,15 @@ const Finish = (): ReactElement => {
           </StyledSecDText>
         </StyledSecD>
       </StyledSection>
+      <br />
+      <StyledSection>
+        <StyledSecH>Destination Address</StyledSecH>
+        <StyledSecD>
+          <StyledSecDText>
+            {UTIL.truncate(displayToAddress, [15, 15])}
+          </StyledSecDText>
+        </StyledSecD>
+      </StyledSection>
 
       {displayRequestTxResult?.success && (
         <StyledSection>

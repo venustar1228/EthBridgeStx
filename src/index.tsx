@@ -5,11 +5,33 @@ import App from './App'
 import { RecoilRoot } from 'recoil'
 import reportWebVitals from './reportWebVitals'
 
+import { Connect } from '@stacks/connect-react'
+import { Buffer } from '@stacks/common'
+
+import { userSession } from './pages/Send'
+
+global.Buffer = Buffer
+
 ReactDOM.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
+    <Connect
+      authOptions={{
+        appDetails: {
+          name: 'Stacks Template',
+          // todo:
+          icon: window.location.origin + '/logo.png',
+        },
+        redirectTo: '/',
+        onFinish: (): void => {
+          window.location.reload()
+        },
+        userSession,
+      }}
+    >
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+    </Connect>
   </React.StrictMode>,
   document.getElementById('root')
 )
